@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.app-titlebar {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+.app-window-controls {
+  -webkit-app-region: no-drag;
+}
+
+.app-titlebar a {
+  -webkit-app-region: no-drag;
+}
+
+.app-titlebar button {
+  -webkit-app-region: no-drag;
+}
+
+.app-window-controls button {
+  display: flex;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  color: #475569;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.app-window-controls button:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.app-window-controls button.close-control:hover {
+  background-color: #e81123;
+  color: white;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.scan-progress-indicator {
+  animation: scan-progress 1.5s ease-in-out infinite;
+}
+
+@keyframes scan-progress {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(300%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan-progress-indicator {
+    animation: none;
+    width: 100%;
+  }
+}

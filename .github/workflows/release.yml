@@ -1,0 +1,94 @@
+name: Build and publish Windows release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build Windows installer
+        run: npm run electron:build -- --publish never
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          gh release view $tag --json tagName *> $null
+          if ($LASTEXITCODE -ne 0) {
+            $version = $tag -replace '^v', ''
+            gh release create $tag --verify-tag --title $version --generate-notes
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to create GitHub release $tag"
+            }
+          }
+
+          $installers = @(Get-ChildItem -Path release -File -Filter '*.exe')
+          if ($installers.Count -ne 1) {
+            throw "Expected one Windows installer for $tag, found $($installers.Count)"
+          }
+
+          $metadataPath = Join-Path release 'latest.yml'
+          if (-not (Test-Path -LiteralPath $metadataPath)) {
+            throw "No updater metadata was produced for $tag"
+          }
+          $metadata = Get-Content -Path $metadataPath -Raw
+          $installerMatch = [regex]::Match($metadata, '(?m)^\s*-\s+url:\s*(?<name>\S+)\s*$')
+          if (-not $installerMatch.Success) {
+            throw "Could not find the installer name in $metadataPath"
+          }
+
+          $installerName = $installerMatch.Groups['name'].Value
+          if ([IO.Path]::GetFileName($installerName) -ne $installerName) {
+            throw "Updater metadata contains an invalid installer name: $installerName"
+          }
+
+          $installerUploadPath = Join-Path $env:RUNNER_TEMP $installerName
+          Copy-Item -LiteralPath $installers[0].FullName -Destination $installerUploadPath
+          $assets = @($installerUploadPath)
+          $blockmapPath = "$($installers[0].FullName).blockmap"
+          if (Test-Path -LiteralPath $blockmapPath) {
+            $blockmapUploadPath = Join-Path $env:RUNNER_TEMP "$installerName.blockmap"
+            Copy-Item -LiteralPath $blockmapPath -Destination $blockmapUploadPath
+            $assets += $blockmapUploadPath
+          }
+          $assets += $metadataPath
+
+          gh release upload $tag $assets --clobber
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to upload release assets for $tag"
+          }
