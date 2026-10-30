@@ -18,7 +18,6 @@
     "electron:dist": "electron-builder --config electron-builder.config.cjs --win nsis"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
     "electron-updater": "^6.8.9",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.446.0",
@@ -51,7 +50,7 @@
     "wait-on": "^8.0.3"
   },
   "build": {
-    "appId": "com.docstitch.desktop",
+    "appId": "com.cybercafestudio.desktop",
     "productName": "Cyber Cafe Studio",
     "directories": {
       "output": "release"
@@ -84,7 +83,7 @@
       {
         "provider": "github",
         "owner": "tuhin733",
-        "repo": "DocStich",
+        "repo": "cyber-cafe-studio",
         "releaseType": "release"
       }
     ]

@@ -508,7 +508,7 @@ function App() {
               Donate
             </button>
             <a
-              href="https://github.com/tuhin733/DocStich"
+              href="https://github.com/tuhin733/cyber-cafe-studio"
               target="_blank"
               rel="noreferrer"
               aria-label="Open the Cyber Cafe Studio project repository on GitHub"

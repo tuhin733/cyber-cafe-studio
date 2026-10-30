@@ -2,7 +2,7 @@ import { DEFAULT_LAYOUT } from "../constants";
 import { notifyUserError } from "./userErrors";
 import type { LayoutSettings, UploadedDoc } from "../types";
 
-const STORAGE_KEY = "docstitch-project-v1";
+const STORAGE_KEY = "cyber-cafe-studio-project-v1";
 
 type PersistedProject = {
   settings: LayoutSettings;

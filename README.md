@@ -31,11 +31,11 @@ PDF merging combines selected files in the chosen order and keeps their pages. P
 
 ## Download
 
-Download the latest Windows release from the [Cyber Cafe Studio GitHub Releases](https://github.com/tuhin733/DocStich/releases).
+Download the latest Windows release from the [Cyber Cafe Studio GitHub Releases](https://github.com/tuhin733/cyber-cafe-studio/releases).
 
 ## Source Code
 
-Explore the [Cyber Cafe Studio repository](https://github.com/tuhin733/DocStich).
+Explore the [Cyber Cafe Studio repository](https://github.com/tuhin733/cyber-cafe-studio).
 
 ## Screenshots
 
@@ -43,9 +43,6 @@ Explore the [Cyber Cafe Studio repository](https://github.com/tuhin733/DocStich)
 
 ![Cyber Cafe Studio screenshot](screenshots/screenshot-2026-10-30-080639.png)
 
-![Cyber Cafe Studio screenshot](screenshots/docstich-083109.png)
-
-![Cyber Cafe Studio screenshot](screenshots/docstich-083227.png)
 
 ## Keywords
 

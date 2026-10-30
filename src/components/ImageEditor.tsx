@@ -55,7 +55,7 @@ const DEFAULT_FINE_ADJUSTMENTS: FineAdjustments = {
   saturation: 0,
 };
 
-const SAVED_PRESETS_KEY = "docstitch-image-adjustment-presets";
+const SAVED_PRESETS_KEY = "cyber-cafe-studio-image-adjustment-presets";
 
 function isSavedAdjustmentPreset(value: unknown): value is SavedAdjustmentPreset {
   if (typeof value !== "object" || value === null) return false;

@@ -116,7 +116,7 @@ function createPhotoPrintWindow(dataUrls, pageWidthMm, pageHeightMm) {
     },
   });
   printWindow.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
-  return fs.mkdtemp(path.join(os.tmpdir(), "docstitch-photo-print-"))
+  return fs.mkdtemp(path.join(os.tmpdir(), "cyber-cafe-studio-photo-print-"))
     .then(async (tempDirectory) => {
       try {
         const htmlPath = path.join(tempDirectory, "photo-sheet.html");
@@ -240,7 +240,7 @@ ipcMain.handle("photo:export-pdf", async (event, options) => {
 ipcMain.handle("scanner:scan-document", async (event) => {
   if (!isTrustedSender(event)) throw new Error("Untrusted scanner request");
 
-  const tempDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "docstitch-scan-"));
+  const tempDirectory = await fs.mkdtemp(path.join(os.tmpdir(), "cyber-cafe-studio-scan-"));
   const outputPath = path.join(tempDirectory, "scan.jpg");
   const scriptPath = app.isPackaged
     ? path.join(process.resourcesPath, "scanner", "scan-document.ps1")
@@ -324,7 +324,7 @@ ipcMain.handle("app:check-updates", async (event) => {
   if (!isTrustedSender(event)) throw new Error("Untrusted update check request");
 
   const response = await fetch(
-    "https://api.github.com/repos/tuhin733/DocStich/releases/latest",
+    "https://api.github.com/repos/tuhin733/cyber-cafe-studio/releases/latest",
     {
       headers: {
         Accept: "application/vnd.github+json",
@@ -354,7 +354,7 @@ ipcMain.handle("app:check-updates", async (event) => {
           /\.exe$/i.test(asset.name) &&
           typeof asset.browser_download_url === "string" &&
           asset.browser_download_url.startsWith(
-            `https://github.com/tuhin733/DocStich/releases/download/${release.tag_name}/`,
+            `https://github.com/tuhin733/cyber-cafe-studio/releases/download/${release.tag_name}/`,
           ),
       )
     : undefined;
@@ -378,7 +378,7 @@ ipcMain.handle("app:open-installer-download", (event, downloadUrl) => {
   if (
     parsedUrl.protocol !== "https:" ||
     parsedUrl.hostname !== "github.com" ||
-    !parsedUrl.pathname.startsWith("/tuhin733/DocStich/releases/download/") ||
+    !parsedUrl.pathname.startsWith("/tuhin733/cyber-cafe-studio/releases/download/") ||
     !parsedUrl.pathname.toLowerCase().endsWith(".exe")
   ) {
     throw new TypeError("Invalid installer download URL");
@@ -415,7 +415,7 @@ ipcMain.handle("app:download-update", async (event, tag) => {
 
 ipcMain.handle("app:open-repository", (event) => {
   if (!isTrustedSender(event)) throw new Error("Untrusted repository open request");
-  return shell.openExternal("https://github.com/tuhin733/DocStich");
+  return shell.openExternal("https://github.com/tuhin733/cyber-cafe-studio");
 });
 
 function createWindow() {
